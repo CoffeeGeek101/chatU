@@ -152,6 +152,7 @@
     height: 100%;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .reg-hero-des{
@@ -229,4 +230,55 @@
 .reg-login-btn:hover{
     cursor: pointer;
     text-decoration: underline;
+}
+
+.emoji-floting{
+    font-size: 65px;
+    position: absolute;
+    top: 33px;
+    transform: rotate(340deg);
+}
+
+.emoji-floting-1{
+    font-size: 65px;
+    position: absolute;
+    top: 193px;
+    left: 100px;
+    transform: rotate(40deg);
+}
+
+.emoji-floting-2{
+    font-size: 105px;
+    position: absolute;
+    top: 493px;
+    left: 140px;
+    /* transform: rotate(40deg); */
+}
+
+.emoji-floting-3{
+    font-size: 65px;
+    position: absolute;
+    top: 653px;
+    left: 400px;
+    transform: rotate(10deg);
+}
+
+.emoji-floting-4{
+    font-size: 65px;
+    position: absolute;
+    top: 653px;
+    right: 100px;
+    transform: rotate(10deg);
+}
+
+.emoji-floting-5{
+    font-size: 95px;
+    position: absolute;
+    top: 353px;
+    right: 150px;
+    transform: rotate(350deg);
+}
+
+.emoji-shadow{
+    text-shadow: 1px 2px 25px  rgba(255, 255, 255, 0.384);
 }

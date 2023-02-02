@@ -5,21 +5,53 @@ import {delay, motion} from "framer-motion";
 import { Link } from 'react-router-dom';
 
 export default function Register() {
-  return (
-    <div className='register-container'>
-        <div className='hero-reg-container'>
 
+    const regVarient ={
+        hidden:{opacity: 0},
+        visible: { opacity: 1,
+                transition: {delay: 0.5, type:"linear"},
+        },
+        exit:{
+            opacity:0,
+            transition:{ease:'easeInOut', type:"linear"}
+        }
+    }
+
+    const regHeroVarient={
+        hidden:{opacity:0, x:-550},
+        visible:{opacity:1, x:0, 
+        transition:{ease:"linear", delay:0.5}}
+    }
+
+    const regFormVarient={
+        hidden:{opacity:0, x:800},
+        visible:{opacity:1, x:0, 
+        transition:{ease:"linear", delay:0.5}}
+    }
+
+    const regEmojiVarient={
+        hidden:{opacity:0,},
+        visible:{opacity:1, 
+        transition:{ease:"easeInOut", delay:1.5}}
+    }
+
+  return (
+    <motion.div 
+    variants={regVarient}
+    initial="hidden"
+    animate="visible"
+    exit="exit"
+    className='register-container'>
+        <div className='hero-reg-container'>
             <motion.div
-            initial={{x:-550}}
-            animate={{x:0}}
-            transition={{ease:"linear"}}
+            variants={regHeroVarient}
             className='reg-hero-element'>
                 {/* <img className='reg-hero-img' src={logo}/> */}
                 <div className='reg-hero-des-wrapper'>
                     <motion.div 
                     initial={{opacity: 0}}
                     animate={{opacity:1}}
-                    transition={{delay:0.5}}
+                    transition={{delay:1}}
                     className='reg-hero-des'>
                         <h2 className='reg-app-logo'>ChatU</h2>
                         <div className='reg-des-container'>
@@ -39,12 +71,28 @@ export default function Register() {
                         </div>
                     </motion.div>
                 </div>
+                <motion.p
+                variants={regEmojiVarient}
+                className='emoji-floting emoji-shadow'>&#128522;</motion.p>
+                <motion.p 
+                variants={regEmojiVarient}
+                className='emoji-floting-1 emoji-shadow'>&#128536;</motion.p>
+                <motion.p
+                variants={regEmojiVarient}
+                className='emoji-floting-2 emoji-shadow'>&#128526;</motion.p>
+                <motion.p
+                variants={regEmojiVarient}
+                className='emoji-floting-3 emoji-shadow'>&#128521;</motion.p>
+                <motion.p
+                variants={regEmojiVarient}
+                className='emoji-floting-4 emoji-shadow'>&#129305;</motion.p>
+                <motion.p
+                variants={regEmojiVarient}
+                className='emoji-floting-5 emoji-shadow'>&#127881;</motion.p>
             </motion.div>
 
             <motion.div
-            initial={{x: 850}} 
-            animate={{x: 0}}
-            transition={{ease: "anticipate" , delay:0.2}}
+            variants={regFormVarient}
             className='reg-form-container'>
                 <div className='reg-form-wrapper'>
                     <motion.div
@@ -90,6 +138,7 @@ export default function Register() {
                         initial={{ opacity:0}}
                         animate={{ opacity:1}}
                         transition={{delay:0.9}}
+                        whileHover={{scale:[null, 1.06, 1]}}
                         className='reg-form-btn'>Sign up</motion.button>
                     </form>
 
@@ -114,6 +163,6 @@ export default function Register() {
                 </div>
             </motion.div>
         </div>
-    </div>
+    </motion.div>
   )
 }
