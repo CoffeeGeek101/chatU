@@ -1,0 +1,230 @@
+.login-container{
+    background-color: rgba(2, 2, 153, 0.607);
+    width: 100vw;
+    height: 100vh;
+}
+
+
+.login-hero-element{
+    width: 540px;
+    height: 620px;
+    background-image: url(../../../../assets/login-hero.jpeg);
+    background-size: cover;
+    border-radius: 30px 5px 5px 30px;
+    box-shadow: 1px 2px 20px -10px black;
+    z-index: 1;
+}
+
+.reg-hero-img{
+    width: 500px;
+    height: 610px;
+    object-fit: cover;
+}
+
+.hero-reg-container{
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form-container{
+    width: 460px;
+    height: 560px;
+    background-color: rgb(233, 236, 255);
+    border-radius: 0px 30px 30px 0;
+    box-shadow: 1px 2px 20px -10px black;
+}
+
+.login-form-wrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.reg-form-header{
+    font-family: 'Itim', cursive;
+    font-size: 30px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.reg-form{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.reg-form-label{
+    font-family: 'IBM Plex Sans', sans-serif;
+    margin-bottom: 5px;
+    font-weight: 500;
+    font-size: 13px;
+    margin-left: 5px;
+}
+
+.reg-form-input{
+    padding: 15px;
+    min-width: 280px;
+    border-radius: 10px;
+    border: solid 1px rgba(0, 0, 0, 0.17);
+    font-size: 15px;
+}
+.reg-form-input:focus-visible{
+    outline: none;
+}
+.reg-form-input:placeholder-shown{
+    font-size: small;
+}
+
+.login-form-btn{
+    padding: 17px;
+    margin-top: 15px;
+    border-radius: 13px;
+    border: none;
+    font-size: 18px;
+    font-weight: 500;
+    color: #fff;
+    background-color: rgb(4, 0, 237);
+}
+
+.login-form-btn:hover{
+    cursor: pointer;
+    box-shadow: 1px 2px 30px -5px rgba(47, 0, 255, 0.906);
+    transition: 1s;
+    text-shadow: 1px 2px 12px white;
+}
+
+.reg-form-separator{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.reg-form-separator > span{
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: gray;
+}
+
+.reg-form-line{
+    width: 80px;
+    height: 1px;
+    background-color: rgb(215, 215, 215);
+}
+
+.login-form-gAuth{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 55%;
+    padding: 10px;
+    background-color: #fff;
+    border: solid 1px rgba(0, 8, 255, 0.594);
+    border-radius: 13px;
+}
+
+.login-form-gAuth:hover{
+    cursor: pointer;
+    box-shadow: 1px 2px 20px -5px rgba(0, 0, 255, 0.315);
+    transition: 1s;
+}
+
+.reg-form-gAuth >div{
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.reg-gAuth-img{
+    width: 30px;
+}
+
+.reg-hero-des-wrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.reg-hero-des{
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(20px);
+    padding: 30px 40px;
+    width: 20vw;
+    height: 50vh;
+    display: flex;
+    flex-direction: column;
+    border-radius: 30px;
+    box-shadow: 1px 2px 10px -2px rgba(0, 0, 0, 0.42);
+}
+
+.reg-app-logo{
+    flex: 1;
+    color: #fff;
+    font-family: 'Itim', cursive;
+    font-size: 30px;
+    text-shadow: 1px 1px 10px  rgba(255, 255, 255, 0.505);
+}
+.reg-des-container{
+    flex: 4;
+}
+.app-tag-line{
+    color: #fff;
+    font-size: 25px;
+    font-weight: 300;
+    font-family: 'IBM Plex Sans', sans-serif;
+    text-shadow: 1px 1px 10px  white;
+}
+.app-tag-line-2{
+    color: #fff;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 400;
+    letter-spacing: 6px;
+    font-size: 14px;
+}
+.app-tag-line-2 > span{
+    font-weight: 600;
+    text-shadow: 1px 1px 10px  white;
+}
+.reg-app-des{
+    margin-top: 25px;
+    color: #fff;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+}
+.reg-app-des >span{
+    text-shadow: 1px 1px 10px  white;
+}
+
+.reg-login-container{
+    flex: 1;
+}
+.reg-login-des{
+    margin-top: 20px;
+    color: #fff;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.login-reg-btn{
+    padding: 5px;
+    border: none;
+    background-color: transparent;
+    font-size: 15px;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 1px 1px 10px  rgba(255, 255, 255, 0.366);
+}
+
+.login-reg-btn:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
