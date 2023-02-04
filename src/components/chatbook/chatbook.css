@@ -1,0 +1,13 @@
+.chatbook-container{
+    flex: 2;
+    background-color: rgba(246, 241, 255, 0.504);
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+.chatbook-wrapper{
+    padding: 10px 18px;
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+}

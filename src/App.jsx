@@ -6,6 +6,7 @@ import Login from './pages/login/Login';
 import { AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import "./App.css"
+import Home from './pages/home/Home';
 
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
         <Routes location={location} key={location.key}>
           <Route path="/signup" element={<Register/>}/>
           <Route path="/login" element={<Login/>}/>
+          <Route path='/home' element={<Home/>}/>
         </Routes>
         </AnimatePresence>
     </div>
