@@ -1,13 +1,18 @@
 import "./topbar.css";
 import {Search,ChevronDown } from "react-feather"
 import {KeyboardArrowDownRounded} from "@mui/icons-material"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {AnimatePresence, easeInOut, motion} from "framer-motion";
+import { signOut } from "firebase/auth";
+import { auth } from "../../../firebase";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function Topbar() {
     const [isOpen, setIsOpen] = useState(false);
     
     const dropdownToggle = isOpen ? "open-dropdown" : "";
+
+    const {currentUser} = useContext(AuthContext);
 
   return (
     <div className="topbar-container">
@@ -21,8 +26,8 @@ export default function Topbar() {
 
                 <div className="topbar-acc-sec">
                     <div className="account-detail">
-                        <img className="acc-php" src="https://discussions.apple.com/content/attachment/6692d3b3-c2bb-43df-8b66-a2aa2563039b"/>
-                        <p className="acc-username">shoumya</p>
+                        <img className="acc-php" src={currentUser.photoURL}/>
+                        <p className="acc-username">{currentUser.displayName}</p>
                         <motion.nav 
                         className="topbar-dropdown">
                             <motion.div
@@ -36,18 +41,12 @@ export default function Topbar() {
                                 animate={isOpen ? {opacity:1, y:20, transition:{type:"spring", stiffness:60}}:
                                 {opacity:0, y:-20, transition:{type:"spring",stiffness:100}}}
                                 className={`topbar-dropdown-container ${dropdownToggle}`}>
-                                   
                                     <motion.li 
-                                    initial={{opacity:0, y:-10, transition:{type:"linear", delay:2}}}
-                                    animate={{opacity:1, y:0, transition:{type:"linear", delay:2}}}
                                     className="topbar-dropdown-element">Create a group</motion.li>
                                     <motion.li 
-                                    initial={{opacity:0, y:-10, transition:{type:"linear", delay:2.2}}}
-                                    animate={{opacity:1, y:0, transition:{type:"linear", delay:2.2}}}
                                     className="topbar-dropdown-element">Starred messages</motion.li>
                                     <motion.li 
-                                    initial={{opacity:0, y:-10, transition:{type:"linear", delay:2.5}}}
-                                    animate={{opacity:1, y:0, transition:{type:"linear", delay:2.5}}}
+                                    onClick={()=> signOut(auth)}
                                     className="topbar-dropdown-element">Logout</motion.li>
                                 </motion.ul>
                         </motion.nav>

@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./register.css"
 import logo from "../../../../assets/reg-hero.jpg"
 import {delay, motion} from "framer-motion";
 import { Link } from 'react-router-dom';
-import { AccountCircleRounded } from '@mui/icons-material';
-import {createUserWithEmailAndPassword, GoogleAuthProvider,linkWithPopup, signInWithPopup} from 'firebase/auth';
-import { auth } from '../../../firebase';
+import {createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile} from 'firebase/auth';
+import{ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
+import { auth, db, storage } from '../../../firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { async } from '@firebase/util';
+// import { async } from '@firebase/util';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Register() {
 
@@ -38,49 +43,82 @@ export default function Register() {
         transition:{ease:"easeInOut", delay:1.5}}
     }
 
-    const handleSubmit = (e) =>{
+    const [error, setError] = useState(false);
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) =>{
         e.preventDefault();
-        const username = e.target[0].value;
-        const photo = e.target[1].files[0];
+        const displayName = e.target[0].value;
+        const file = e.target[1].files[0];
         const email = e.target[2].value;
         const password = e.target[3].value;
        
-        
-       
-        createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            // console.log(user);
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-        });
-    }
+        try{
+            const res = await createUserWithEmailAndPassword(auth, email, password); 
+
+            //Create a unique image name
+            const date = new Date().getTime();
+            const storageRef = ref(storage, `${displayName + date}`);
+
+            await uploadBytesResumable(storageRef, file).then(() => {
+                getDownloadURL(storageRef).then(async (downloadURL) => {
+                try {
+                    
+                    await updateProfile(res.user, {
+                    displayName,
+                    photoURL: downloadURL,
+                    });
+                   
+                    await setDoc(doc(db, "users", res.user.uid), {
+                    uid: res.user.uid,
+                    displayName,
+                    email,
+                    photoURL: downloadURL,
+                    });
+                    
+                    await setDoc(doc(db,"userChats", res.user.uid),{});
+                    navigate("/");
+                    }catch(err){
+                        // console.log(err);
+                        setError(true);
+                    }
+                });
+            });
+        }catch(err){
+            setError(true);
+        }
+            
+    };
 
     const provider = new GoogleAuthProvider();
-
-    const handleGoogle = (e) =>{
+    const handleGoogle = async(e) =>{
         e.preventDefault();
-        // linkWithPopup(auth.currentUser, provider).then((result) => {
-        //     // Accounts successfully linked.
-        //     const credential = GoogleAuthProvider.credentialFromResult(result);
-        //     const user = result.user;
-        //     console.log(user);
-        //     // ...
-        //   }).catch((error) => {
-        //     console.log(error);
-        //   });
-        signInWithPopup(auth, provider)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            console.log(user);
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-        });
-    }
+        
+        try{
+            await signInWithPopup(auth, provider).then(async(userCred)=>{
+               console.log(userCred.user);
+
+               try{
+                await setDoc(doc(db,"users",userCred.user.uid),{
+                    uid : userCred.user.uid,
+                    displayName : userCred.user.displayName,
+                    email : userCred.user.email,
+                    photoURL : userCred.user.photoURL,
+                   });
+
+                await setDoc(doc(db,"userChats", userCred.user.uid),{});   
+                navigate("/");
+
+               }catch(err){
+                setError(true);
+               }
+            });
+
+        }catch(err){
+            setError(true);
+        }
+    };
+
 
   return (
     <motion.div 

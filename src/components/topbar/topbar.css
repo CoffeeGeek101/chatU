@@ -87,6 +87,15 @@
     border-radius: 100%;
 }
 
+.acc-username{
+    max-width: 80px;
+    white-space:nowrap;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
 .topbar-dropdown{
     margin-top: 7px;
 }
