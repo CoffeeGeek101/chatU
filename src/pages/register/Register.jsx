@@ -1,8 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./register.css"
 import logo from "../../../../assets/reg-hero.jpg"
 import {delay, motion} from "framer-motion";
 import { Link } from 'react-router-dom';
+import {createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile} from 'firebase/auth';
+import{ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
+import { auth, db, storage } from '../../../firebase';
+import { doc, setDoc } from 'firebase/firestore';
+import { async } from '@firebase/util';
+// import { async } from '@firebase/util';
+import { useNavigate } from 'react-router-dom';
+
 
 export default function Register() {
 
@@ -34,6 +42,83 @@ export default function Register() {
         visible:{opacity:1, 
         transition:{ease:"easeInOut", delay:1.5}}
     }
+
+    const [error, setError] = useState(false);
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) =>{
+        e.preventDefault();
+        const displayName = e.target[0].value;
+        const file = e.target[1].files[0];
+        const email = e.target[2].value;
+        const password = e.target[3].value;
+       
+        try{
+            const res = await createUserWithEmailAndPassword(auth, email, password); 
+
+            //Create a unique image name
+            const date = new Date().getTime();
+            const storageRef = ref(storage, `${displayName + date}`);
+
+            await uploadBytesResumable(storageRef, file).then(() => {
+                getDownloadURL(storageRef).then(async (downloadURL) => {
+                try {
+                    
+                    await updateProfile(res.user, {
+                    displayName,
+                    photoURL: downloadURL,
+                    });
+                   
+                    await setDoc(doc(db, "users", res.user.uid), {
+                    uid: res.user.uid,
+                    displayName,
+                    email,
+                    photoURL: downloadURL,
+                    });
+                    
+                    await setDoc(doc(db,"userChats", res.user.uid),{});
+                    navigate("/");
+                    }catch(err){
+                        // console.log(err);
+                        setError(true);
+                    }
+                });
+            });
+        }catch(err){
+            setError(true);
+        }
+            
+    };
+
+    const provider = new GoogleAuthProvider();
+    const handleGoogle = async(e) =>{
+        e.preventDefault();
+        
+        try{
+            await signInWithPopup(auth, provider).then(async(userCred)=>{
+               console.log(userCred.user);
+
+               try{
+                await setDoc(doc(db,"users",userCred.user.uid),{
+                    uid : userCred.user.uid,
+                    displayName : userCred.user.displayName,
+                    email : userCred.user.email,
+                    photoURL : userCred.user.photoURL,
+                   });
+
+                await setDoc(doc(db,"userChats", userCred.user.uid),{});   
+                navigate("/");
+
+               }catch(err){
+                setError(true);
+               }
+            });
+
+        }catch(err){
+            setError(true);
+        }
+    };
+
 
   return (
     <motion.div 
@@ -102,18 +187,24 @@ export default function Register() {
                      className='reg-form-header'>
                         <h2>Sign Up</h2>
                     </motion.div>    
-                
-                    <form className='reg-form'>
+
+                    <form className='reg-form' onSubmit={handleSubmit}>
+            
                     <motion.div
                         initial={{ opacity:0}}
                         animate={{ opacity:1}}
                         transition={{delay:0.7}}
                         className='reg-form-element'>
-                            <div className='reg-form-label'>
-                                Username
-                            </div>
-                            <input className='reg-form-input' type="text" placeholder='Enter your username'/>
+                                <div className='reg-form-label'>
+                                    Username
+                                </div>
+                                <input required className='reg-form-input' type="text" placeholder='Enter your username'/>      
                         </motion.div>
+                                <input required style={{display:"none"}} type= "file" id="file"/>   
+                                <label className='reg-upload-dp' htmlFor="file">
+                                        <img src='https://i.pinimg.com/originals/e0/57/7a/e0577a5fa87f06c4ebf7292ee1191711.jpg'/>
+                                        <p>Select your Avatar</p>
+                                </label>          
                         <motion.div
                         initial={{ opacity:0}}
                         animate={{ opacity:1}}
@@ -122,7 +213,7 @@ export default function Register() {
                             <div className='reg-form-label'>
                                 Email Address
                             </div>
-                            <input className='reg-form-input' type="email" placeholder='Enter your Email'/>
+                            <input required className='reg-form-input' type="email" placeholder='Enter your Email'/>
                         </motion.div>
                         <motion.div
                         initial={{ opacity:0}}
@@ -132,7 +223,7 @@ export default function Register() {
                             <div className='reg-form-label'>
                                 Password
                             </div>
-                            <input className='reg-form-input' type="password" placeholder='Enter your Password'/>
+                            <input required className='reg-form-input' type="password" placeholder='Enter your Password'/>
                         </motion.div>
                         <motion.button 
                         initial={{ opacity:0}}
@@ -140,6 +231,7 @@ export default function Register() {
                         transition={{delay:0.9}}
                         whileHover={{scale:[null, 1.06, 1]}}
                         className='reg-form-btn'>Sign up</motion.button>
+
                     </form>
 
                     <motion.div 
@@ -152,16 +244,20 @@ export default function Register() {
                         <div className='reg-form-line'></div>
                     </motion.div>
                     
+                    
                     <motion.button 
                     initial={{ opacity:0}}
                     animate={{ opacity:1}}
                     transition={{delay:1}}
+                    onClick={(e)=>handleGoogle(e)}
                     className='reg-form-gAuth'>
                         <img className='reg-gAuth-img' src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png"/>
                         <div>Continue with Google</div>
                     </motion.button>
+                    
                 </div>
             </motion.div>
+            
         </div>
     </motion.div>
   )

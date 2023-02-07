@@ -1,0 +1,16 @@
+.home-wrapper{
+    background-color: rgba(255, 255, 255, 0.631);
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 10px;
+    flex-direction: column;
+    -webkit-backdrop-filter: blur(30px);
+}
+
+.home-container{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

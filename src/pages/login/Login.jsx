@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./login.css"
 import logo from "../../../../assets/login-hero.jpeg"
 import {delay, motion} from "framer-motion";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { async } from '@firebase/util';
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { auth, db } from '../../../firebase';
+import { doc, setDoc } from 'firebase/firestore';
 
 export default function Login() {
 
@@ -32,6 +36,52 @@ export default function Login() {
         visible:{opacity:1, 
         transition:{ease:"easeInOut", delay:1.5}}
     }
+
+    const[Error, setError] = useState(false);
+    const navigate = useNavigate();
+
+    const handleSubmit = async(e) =>{
+        e.preventDefault();
+        const email = e.target[0].value;
+        const password = e.target[1].value;
+        
+        try{
+        await signInWithEmailAndPassword(auth, email, password);
+        navigate("/");
+
+        }catch(error){
+            setError(true);
+        }
+    }
+
+    const provider = new GoogleAuthProvider();
+    const handleGoogle = async(e) =>{
+        e.preventDefault();
+        
+        try{
+            await signInWithPopup(auth, provider).then(async(userCred)=>{
+               console.log(userCred.user);
+
+               try{
+                await setDoc(doc(db,"users",userCred.user.uid),{
+                    uid : userCred.user.uid,
+                    displayName : userCred.user.displayName,
+                    email : userCred.user.email,
+                    photoURL : userCred.user.photoURL,
+                   });
+
+                await setDoc(doc(db,"userChats", userCred.user.uid),{});   
+                navigate("/");
+
+               }catch(err){
+                setError(true);
+               }
+            });
+
+        }catch(err){
+            setError(true);
+        }
+    };
 
   return (
     <motion.div 
@@ -102,7 +152,9 @@ export default function Login() {
                         <h2>Log in</h2>
                     </motion.div>    
                 
-                    <form className='reg-form'>
+                    <form 
+                     onSubmit={handleSubmit}
+                    className='reg-form'>
                         <motion.div
                         initial={{ opacity:0}}
                         animate={{ opacity:1}}
@@ -111,7 +163,7 @@ export default function Login() {
                             <div className='reg-form-label'>
                                 Email Address
                             </div>
-                            <input className='reg-form-input' type="email" placeholder='Enter your Email'/>
+                            <input required className='reg-form-input' type="email" placeholder='Enter your Email'/>
                         </motion.div>
                         <motion.div
                         initial={{ opacity:0}}
@@ -121,13 +173,14 @@ export default function Login() {
                             <div className='reg-form-label'>
                                 Password
                             </div>
-                            <input className='reg-form-input' type="password" placeholder='Enter your Password'/>
+                            <input required className='reg-form-input' type="password" placeholder='Enter your Password'/>
                         </motion.div>
                         <motion.button 
                         initial={{ opacity:0}}
                         animate={{ opacity:1}}
                         transition={{delay:0.9}}
-                        className='login-form-btn'>Log in</motion.button>
+                        className='login-form-btn'
+                        >Log in</motion.button>
                     </form>
 
                     <motion.div 
@@ -144,7 +197,9 @@ export default function Login() {
                     initial={{ opacity:0}}
                     animate={{ opacity:1}}
                     transition={{delay:1}}
-                    className='login-form-gAuth'>
+                    className='login-form-gAuth'
+                    onClick={handleGoogle}
+                    >
                         <img className='reg-gAuth-img' src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png"/>
                         <div>Continue with Google</div>
                     </motion.button>

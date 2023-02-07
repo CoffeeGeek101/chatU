@@ -1,0 +1,68 @@
+
+.contact-wrapper{
+    display: flex;
+    /* justify-content: space-between; */
+    padding: 15px 10px;
+    align-items: center;
+    gap: 10px;
+}
+
+.contact-container{
+    border-bottom: solid 0.5px rgba(0, 0, 0, 0.121);
+}
+
+.contact-img{
+    width: 60px;
+    height: 50px;
+    border-radius: 100%;
+    object-fit:cover;
+    flex: 1;
+}
+
+.contact-chat{
+    width: 192px;
+    display: flex;
+    flex-direction: column;
+    flex: 4;
+    overflow-wrap: break-word;
+}
+
+.chat-snippet{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: 300;
+    color: grey;
+}
+
+.chat-info{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+
+.time-stamp{
+    font-size: 13px;
+    font-weight: 300;
+}
+.chat-notification{
+    background-color: blueviolet;
+    padding: 3px 9px;
+    border-radius: 100%;
+    font-size: 12px;
+    color: #fff;
+}
+
+.contact-id{
+    font-weight: 600;
+    font-variant: small-caps;
+    letter-spacing: 1px;
+}
+
+.contact-container:hover{
+    cursor: pointer;
+    background-color: rgba(44, 86, 255, 0.081);
+    box-shadow: 1px 2px 30px -5px white;
+}

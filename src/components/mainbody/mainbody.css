@@ -1,0 +1,8 @@
+.body-container{
+    min-height: 80vh;
+    background-color: transparent;
+}
+
+.body-wrapper{
+    display: flex;
+}
