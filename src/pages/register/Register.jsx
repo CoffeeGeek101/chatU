@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import "./register.css"
-import logo from "../../../../assets/reg-hero.jpg"
+import logo from "../../../assets/reg-hero.jpg"
 import {delay, motion} from "framer-motion";
 import { Link } from 'react-router-dom';
 import {createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile} from 'firebase/auth';
