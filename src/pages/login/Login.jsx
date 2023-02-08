@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import "./login.css"
-import logo from "../../../../assets/login-hero.jpeg"
+import logo from "../../../assets/login-hero.jpeg"
 import {delay, motion} from "framer-motion";
 import { Link, useNavigate } from 'react-router-dom';
 import { async } from '@firebase/util';

@@ -6,6 +6,13 @@
     overflow-y: hidden;
 }
 
+.input-message-form{
+    display: flex;
+    flex: 6;
+    gap: 10px;
+    align-items: center;
+}
+
 .contact-topbar-container{
     background-color: rgba(255, 255, 255, 0.339);
     -webkit-backdrop-filter: blur(20px);
@@ -85,6 +92,12 @@
     flex: 1;
     display: flex;
     justify-content: center;
+}
+
+.chat-send-btn:hover{
+    cursor: pointer;
+    transform: rotate(270deg);
+    transition: 1s ease;
 }
 
 .chat-message-container{

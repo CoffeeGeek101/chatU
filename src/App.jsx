@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import Register from './pages/register/Register'
-import logobg from "../../assets/hero-bgg-vid.mp4"
+import logobg from "../assets/hero-bgg-vid.mp4"
 import {BrowserRouter as Router,Navigate,Route, Routes} from "react-router-dom";
 import Login from './pages/login/Login';
 import { AnimatePresence } from 'framer-motion';

@@ -9,7 +9,7 @@
 .reg-hero-element{
     width: 540px;
     height: 620px;
-    background-image: url(../../../../assets/reg-hero.jpg);
+    background-image: url(../../../assets/reg-hero.jpg);
     background-size: cover;
     border-radius: 30px 5px 5px 30px;
     box-shadow: 1px 2px 20px -10px black;
